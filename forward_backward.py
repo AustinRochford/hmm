@@ -21,6 +21,13 @@ def forward(transition_probs, emission_probs, initial_dist, emissions):
 
     return dists
 
+def forward_backward(transition_probs, emission_probs, initial_dist, emissions):
+    forward_dists = forward(transition_probs, emission_probs, initial_dist, emissions)
+    backward_dists = backward(transition_probs, emission_probs, emissions)
+    backward_dists.reverse()
+
+    return [to_dist(f_dist * b_dist) for (f_dist, b_dist) in zip(forward_dists, backward_dists)]
+
 #distribution manipulation utilities
 def emission_matrix(emission_probs, emission):
     return diagflat(emission_probs[:, emission])
@@ -37,4 +44,5 @@ wiki_transition_probs = array([[0.7, 0.3], [0.3, 0.7]])
 
 if __name__ == "__main__":
     #print forward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_emissions)
-    print backward(wiki_transition_probs, wiki_emission_probs, wiki_emissions)
+    #print backward(wiki_transition_probs, wiki_emission_probs, wiki_emissions)
+    print forward_backward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_emissions)
