@@ -1,4 +1,4 @@
-from numpy import diagflat
+from numpy import array, diagflat, dot
 
 #forward-backward algorithm
 def forward(transition_probs, emission_probs, initial_dist, emissions):
@@ -6,7 +6,8 @@ def forward(transition_probs, emission_probs, initial_dist, emissions):
     dist = initial_dist
 
     for emission in emissions:
-        dists.append(dot(dist, dot(transition_probs, emission_marix(emission_probs, emissions))))
+        dist = to_dist(dot(dist, dot(transition_probs, emission_matrix(emission_probs, emission))))
+        dists.append(dist)
 
     return dists
 
@@ -25,4 +26,4 @@ wiki_emissions = [0, 0, 1, 0, 0]
 wiki_transition_probs = array([[0.7, 0.3], [0.3, 0.7]])
 
 if __name__ == "__main__":
-    print forward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_states)
+    print forward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_emissions)
