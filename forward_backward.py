@@ -1,4 +1,5 @@
 from numpy import array, diagflat, dot, transpose
+from operator import mul
 
 #forward-backward algorithm
 def backward(transition_probs, emission_probs, emissions):
@@ -26,7 +27,7 @@ def forward_backward(transition_probs, emission_probs, initial_dist, emissions):
     backward_dists = backward(transition_probs, emission_probs, emissions)
     backward_dists.reverse()
 
-    return [to_dist(f_dist * b_dist) for (f_dist, b_dist) in zip(forward_dists, backward_dists)]
+    return [to_dist(mul(*dists)) for dists in zip(forward_dists, backward_dists)]
 
 #distribution manipulation utilities
 def emission_matrix(emission_probs, emission):
