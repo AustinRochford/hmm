@@ -25,9 +25,8 @@ def forward(transition_probs, emission_probs, initial_dist, emissions):
 def forward_backward(transition_probs, emission_probs, initial_dist, emissions):
     forward_dists = forward(transition_probs, emission_probs, initial_dist, emissions)
     backward_dists = backward(transition_probs, emission_probs, emissions)
-    backward_dists.reverse()
 
-    return [to_dist(mul(*dists)) for dists in zip(forward_dists, backward_dists)]
+    return [to_dist(mul(*dists)) for dists in zip(forward_dists, reversed(backward_dists))]
 
 #distribution manipulation utilities
 def emission_matrix(emission_probs, emission):
