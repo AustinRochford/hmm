@@ -1,4 +1,3 @@
-import itertools as itl
 import numpy as np
 
 #forward-backward algorithm
@@ -16,7 +15,7 @@ def forward_backward(transition_probs, emission_probs, initial_dist, emissions):
     forward_dists = forward(transition_probs, emission_probs, initial_dist, emissions)
     backward_dists = backward(transition_probs, emission_probs, emissions)
 
-    return np.multiply(forward_dists, backward_dists) / np.reshape(np.sum(np.multiply(forward_dists, backward_dists), axis=1), (6,1))
+    return np.multiply(forward_dists, backward_dists) / np.reshape(np.sum(np.multiply(forward_dists, backward_dists), axis=1), (forward_dists.shape[0], 1))
 
 def forward(transition_probs, emission_probs, initial_dist, emissions):
     dist = initial_dist
