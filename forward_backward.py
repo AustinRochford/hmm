@@ -7,10 +7,13 @@ def forward(transition_probs, emission_probs, initial_dist, emissions):
 
     for emission in emissions:
         dist = normalize(np.dot(dist, np.dot(transition_probs, emission_dist(emission_probs, emission))))
+        dists.append(dist)
+
+    return dists
 
 #related utilities
 def emission_dist(emission_probs, emission):
-    return np.diagflat(emission_probs[emission, :])
+    return np.diagflat(emission_probs[:, emission])
 
 def l1norm(array_):
     return np.linalg.norm(array_, np.inf)
@@ -26,7 +29,6 @@ wiki_emissions = [0, 0, 1, 0, 0]
 wiki_transition_probs = np.array([[0.7, 0.3], [0.3, 0.7]])
 
 if __name__ == "__main__":
-    #print(forward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_emissions))
+    print(forward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_emissions))
     #print(backward(wiki_transition_probs, wiki_emission_probs, wiki_emissions))
     #print(forward_backward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_emissions))
-    print(emission_dist(wiki_emission_probs, 0))
