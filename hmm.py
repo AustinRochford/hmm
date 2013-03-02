@@ -11,7 +11,7 @@ class HMM:
         return self._emission_probs[:, emission]
 
     def num_states(self):
-        return self._transition_probs.size[0]
+        return self._transition_probs.shape[0]
 
     def transition_probs(self):
         return self._transition_probs

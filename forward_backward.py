@@ -25,7 +25,7 @@ def forward(hmm, initial_dist, emissions):
     dists = [dist]
 
     for emission in emissions:
-        dist = normalize(np.dot(dist, np.dot(hmm.transition_probs, np.diagflat(hmm.emission_dist(emission)))))
+        dist = normalize(np.dot(dist, np.dot(hmm.transition_probs(), np.diagflat(hmm.emission_dist(emission)))))
         dists.append(dist)
 
     return np.squeeze(np.array(dists))
@@ -52,4 +52,4 @@ wiki_HMM = HMM(wiki_transition_probs, wiki_emission_probs)
 if __name__ == "__main__":
     #print(forward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_emissions))
     #print(backward(wiki_transition_probs, wiki_emission_probs, wiki_emissions))
-    print(forward_backward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_emissions))
+    print(forward_backward(wiki_HMM, wiki_initial_dist, wiki_emissions))
