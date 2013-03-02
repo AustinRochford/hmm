@@ -1,6 +1,9 @@
 import numpy as np
 
 #forward-backward algorithm
+def backward(transition_probs, emission_probs, emissions):
+    dist = uniform(transition_probs.shape[0])
+
 def forward(transition_probs, emission_probs, initial_dist, emissions):
     dist = initial_dist
     dists = [dist]
@@ -20,6 +23,9 @@ def l1norm(array_):
 
 def normalize(array_):
     return array_ / l1norm(array_)
+
+def uniform(n):
+    return normalize(np.ones((1,n)))
 
 #examples
 #from wikipedia
