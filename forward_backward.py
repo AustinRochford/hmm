@@ -1,7 +1,22 @@
 import numpy as np
 
+#forward-backward algorithm
+def forward(transition_probs, emission_probs, initial_dist, emissions):
+    dist = initial_dist
+    dists = [dist]
+
+    for emission in emissions:
+        dist = normalize(np.dot(dist, np.dot(transition_probs, emission_dist(emission_probs, emission))))
+
+#related utilities
 def emission_dist(emission_probs, emission):
     return np.diagflat(emission_probs[emission, :])
+
+def l1norm(array_):
+    return np.linalg.norm(array_, np.inf)
+
+def normalize(array_):
+    return array_ / l1norm(array_)
 
 #examples
 #from wikipedia
