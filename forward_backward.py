@@ -16,7 +16,6 @@ def forward_backward(hmm, initial_dist, emissions):
     forward_dists = forward(hmm, initial_dist, emissions)
     backward_dists = backward(hmm, emissions)
 
-    #change to len(emissions) (+1)?
     #also, this is a bit of a monster of a line of code
     return np.multiply(forward_dists, backward_dists) / np.reshape(np.sum(np.multiply(forward_dists, backward_dists), axis=1), (len(emissions) + 1, 1))
 
