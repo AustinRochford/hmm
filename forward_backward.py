@@ -3,6 +3,13 @@ import numpy as np
 #forward-backward algorithm
 def backward(transition_probs, emission_probs, emissions):
     dist = uniform(transition_probs.shape[0])
+    dists = [dist]
+
+    for emission in reversed(emissions):
+        dist = normalize(np.dot(transition_probs, np.dot(emission_dist(emission_probs, emission), dist.T)).T)
+        dists.insert(0, dist)
+
+    return dists
 
 def forward(transition_probs, emission_probs, initial_dist, emissions):
     dist = initial_dist
@@ -35,6 +42,6 @@ wiki_emissions = [0, 0, 1, 0, 0]
 wiki_transition_probs = np.array([[0.7, 0.3], [0.3, 0.7]])
 
 if __name__ == "__main__":
-    print(forward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_emissions))
-    #print(backward(wiki_transition_probs, wiki_emission_probs, wiki_emissions))
+    #print(forward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_emissions))
+    print(backward(wiki_transition_probs, wiki_emission_probs, wiki_emissions))
     #print(forward_backward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_emissions))
