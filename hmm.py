@@ -10,5 +10,8 @@ class HMM:
     def emission_dist(self, emission):
         return self._emission_probs[:, emission]
 
+    def num_states(self):
+        return self._transition_probs.size[0]
+
     def transition_probs(self):
         return self._transition_probs
