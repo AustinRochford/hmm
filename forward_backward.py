@@ -8,7 +8,9 @@ def backward(hmm, emissions):
 
     for emission in reversed(emissions):
         dist = normalize(np.dot(hmm.transition_probs, np.dot(np.diagflat(hmm.emission_dist(emission)), dist.T)).T)
-        dists.insert(0, dist)
+        dists.append(dist)
+
+    dists.reverse()
 
     return np.row_stack(dists)
 
