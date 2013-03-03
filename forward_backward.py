@@ -29,12 +29,15 @@ def forward(hmm, initial_dist, emissions):
     return np.squeeze(np.array(dists))
 
 #related utilities
-def normalize(array_, axis=1):
-    #this tuple->list->tuple is ugly, try to get around it
-    sum_shape = list(array_.shape)
-    sum_shape[axis] = 1
+def modify_tuple(tuple_, ix, value):
+    as_list = list(tuple_)
+    as_list[ix] = value
 
-    return array_ / np.reshape(np.sum(array_, axis=axis), tuple(sum_shape))
+    return tuple(as_list)
+
+def normalize(array, axis=1):
+    sum_shape = modify_tuple(array.shape, axis, 1)
+    return array / np.reshape(np.sum(array, axis=axis), sum_shape)
 
 def uniform(n):
     return normalize(np.ones((1,n)))
