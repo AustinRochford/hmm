@@ -3,11 +3,11 @@ import numpy as np
 
 #forward-backward algorithm
 def backward(hmm, emissions):
-    dist = uniform(hmm.num_states())
+    dist = uniform(hmm.num_states)
     dists = [dist]
 
     for emission in reversed(emissions):
-        dist = normalize(np.dot(hmm.transition_probs(), np.dot(np.diagflat(hmm.emission_dist(emission)), dist.T)).T)
+        dist = normalize(np.dot(hmm.transition_probs, np.dot(np.diagflat(hmm.emission_dist(emission)), dist.T)).T)
         dists.insert(0, dist)
 
     return np.squeeze(np.array(dists))
@@ -25,7 +25,7 @@ def forward(hmm, initial_dist, emissions):
     dists = [dist]
 
     for emission in emissions:
-        dist = normalize(np.dot(dist, np.dot(hmm.transition_probs(), np.diagflat(hmm.emission_dist(emission)))))
+        dist = normalize(np.dot(dist, np.dot(hmm.transition_probs, np.diagflat(hmm.emission_dist(emission)))))
         dists.append(dist)
 
     return np.squeeze(np.array(dists))
