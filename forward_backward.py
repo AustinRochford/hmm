@@ -16,8 +16,7 @@ def forward_backward(hmm, initial_dist, emissions):
     forward_dists = forward(hmm, initial_dist, emissions)
     backward_dists = backward(hmm, emissions)
 
-    #also, this is a bit of a monster of a line of code
-    return np.multiply(forward_dists, backward_dists) / np.reshape(np.sum(np.multiply(forward_dists, backward_dists), axis=1), (len(emissions) + 1, 1))
+    return normalize(np.multiply(forward_dists, backward_dists))
 
 def forward(hmm, initial_dist, emissions):
     dist = initial_dist
@@ -30,12 +29,12 @@ def forward(hmm, initial_dist, emissions):
     return np.squeeze(np.array(dists))
 
 #related utilities
-def emission_dist(emission_probs, emission):
-    return np.diagflat(emission_probs[:, emission])
+def normalize(array_, axis=1):
+    #this tuple->list->tuple is ugly, try to get around it
+    sum_shape = list(array_.shape)
+    sum_shape[axis] = 1
 
-def normalize(array_):
-    #very tightly coupled to the way we expect distributions to be stored
-    return array_ / np.sum(array_, axis=1)
+    return array_ / np.reshape(np.sum(array_, axis=axis), tuple(sum_shape))
 
 def uniform(n):
     return normalize(np.ones((1,n)))
