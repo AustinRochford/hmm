@@ -10,7 +10,7 @@ def backward(hmm, emissions):
         dist = normalize(np.dot(hmm.transition_probs, np.dot(np.diagflat(hmm.emission_dist(emission)), dist.T)).T)
         dists.insert(0, dist)
 
-    return np.squeeze(np.array(dists))
+    return np.row_stack(dists)
 
 def forward_backward(hmm, initial_dist, emissions):
     forward_dists = forward(hmm, initial_dist, emissions)
@@ -26,7 +26,7 @@ def forward(hmm, initial_dist, emissions):
         dist = normalize(np.dot(dist, np.dot(hmm.transition_probs, np.diagflat(hmm.emission_dist(emission)))))
         dists.append(dist)
 
-    return np.squeeze(np.array(dists))
+    return np.row_stack(dists)
 
 #related utilities
 def modify_tuple(tuple_, ix, value):
