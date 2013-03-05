@@ -11,7 +11,8 @@ viterbi hmm dist (emiss : emissions) = scanr (!!) (maxIndex dist') maxIxs
 
 --would be nice to write without the where clause; but that gets a bit unwieldy, even with &&&
 viterbiStep :: HMM -> Dist -> Emission -> (Dist, [Int])
-viterbiStep hmm dist emiss = ((emissDist hmm emiss) `vxl` (map maxElement prodCols), map maxIndex prodCols)
-    where   prodCols = toColumns $ (diag dist) <> (transProbs hmm)
+viterbiStep hmm dist emiss = ((emissDist hmm emiss) `vxl` (map (prod @@>) $ zip prodMaxColIxs [0..]), prodMaxColIxs)
+    where   prod = (diag dist) <> (transProbs hmm)
+            prodMaxColIxs = map maxIndex $ toColumns prod
             vxl :: Vector Double -> [Double] -> Vector Double
             vxl v = (mul v) . fromList
