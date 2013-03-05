@@ -5,7 +5,7 @@ import Numeric.Container
 
 --backward algorithm
 backward :: HMM -> [Emission] -> [Dist]
-backward hmm = scanr (flip (backwardStep hmm)) (uniform $ numStates hmm)
+backward hmm = scanr (flip $ backwardStep hmm) (uniform $ numStates hmm)
 
 backwardStep :: HMM -> Dist -> Emission -> Dist
 backwardStep hmm dist emiss = normalize $ (transProbs hmm) <> (diag $ emissDist hmm emiss) <> dist
