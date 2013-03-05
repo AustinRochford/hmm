@@ -23,6 +23,7 @@ numStates :: HMM -> Int
 numStates = rows . transProbs
 
 --examples
+wikiFBEmissions = [0, 0, 1, 0, 0] :: [Emission]
 wikiFBEmitProbs = (2><2) [0.9, 0.1, 0.2, 0.8]
 wikiFBInitProbs = (2|>) [0.5, 0.5] :: Dist
 wikiFBTransProbs = (2><2) [0.7, 0.3, 0.3, 0.7]
