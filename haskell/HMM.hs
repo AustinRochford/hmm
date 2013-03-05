@@ -22,6 +22,9 @@ normalize v = scale (1 / sumElements v) v
 numStates :: HMM -> Int
 numStates = rows . transProbs
 
+uniform :: Int -> Dist
+uniform n = normalize . (n |>) $ repeat 1
+
 --examples
 wikiFBEmissions = [0, 0, 1, 0, 0] :: [Emission]
 wikiFBEmitProbs = (2><2) [0.9, 0.1, 0.2, 0.8]
