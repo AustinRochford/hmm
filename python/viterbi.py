@@ -8,16 +8,16 @@ def viterbi(hmm, initial_dist, emissions):
 
     for emission in emissions[1:]:
         trans_probs = hmm.transition_probs * np.row_stack(probs)
-        max_row_ixs = np.argmax(trans_probs, axis=0)
-        probs = hmm.emission_dist(emission) * trans_probs[max_row_ixs, np.arange(hmm.num_states)]
+        max_col_ixs = np.argmax(trans_probs, axis=0)
+        probs = hmm.emission_dist(emission) * trans_probs[max_col_ixs, np.arange(hmm.num_states)]
 
-        stack.append(max_row_ixs)
+        stack.append(max_col_ixs)
 
     state_seq = [np.argmax(probs)]
 
     while stack:
-        max_row_ixs = stack.pop()
-        state_seq.append(max_row_ixs[state_seq[-1]])
+        max_col_ixs = stack.pop()
+        state_seq.append(max_col_ixs[state_seq[-1]])
 
     state_seq.reverse()
 
