@@ -19,4 +19,6 @@ forwardStep hmm dist emiss = normalize $ dist <> (transProbs hmm) <> (diag $ emi
 
 --forward-backward algorithm
 fb :: HMM -> Dist -> [Emission] -> [Dist]
-fb hmm dist emissions = zipWith (curry (normalize . (uncurry mul))) (forward hmm dist emissions) (backward hmm emissions)
+fb hmm dist emissions = zipWith (normalize `cmp2` mul) (forward hmm dist emissions) (backward hmm emissions)
+    where   cmp2 :: (c -> d) -> (a -> b -> c) -> (a -> b -> d)
+            cmp2 f g = curry (f . (uncurry g))
