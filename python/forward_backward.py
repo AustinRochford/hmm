@@ -7,12 +7,15 @@ def backward(hmm, emissions):
     dists = [dist]
 
     for emission in reversed(emissions):
-        dist = normalize(np.dot(hmm.transition_probs, np.dot(np.diagflat(hmm.emission_dist(emission)), dist.T)).T)
+        dist = backward_step(hmm, dist, emission)
         dists.append(dist)
 
     dists.reverse()
 
     return np.row_stack(dists)
+
+def backward_step(hmm, dist, emission):
+    return normalize(np.dot(hmm.transition_probs, np.dot(np.diagflat(hmm.emission_dist(emission)), dist.T)).T)
 
 def forward_backward(hmm, initial_dist, emissions):
     forward_dists = forward(hmm, initial_dist, emissions)
@@ -56,6 +59,6 @@ wiki_transition_probs = np.array([[0.7, 0.3], [0.3, 0.7]])
 wiki_HMM = HMM(wiki_transition_probs, wiki_emission_probs)
 
 if __name__ == "__main__":
-    print(forward(wiki_HMM, wiki_initial_dist, wiki_emissions))
+    #print(forward(wiki_HMM, wiki_initial_dist, wiki_emissions))
     #print(backward(wiki_HMM, wiki_emissions))
-    #print(forward_backward(wiki_HMM, wiki_initial_dist, wiki_emissions))
+    print(forward_backward(wiki_HMM, wiki_initial_dist, wiki_emissions))
