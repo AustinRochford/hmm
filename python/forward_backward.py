@@ -25,10 +25,13 @@ def forward(hmm, initial_dist, emissions):
     dists = [dist]
 
     for emission in emissions:
-        dist = normalize(np.dot(dist, np.dot(hmm.transition_probs, np.diagflat(hmm.emission_dist(emission)))))
+        dist = forward_step(hmm, dist, emission)
         dists.append(dist)
 
     return np.row_stack(dists)
+
+def forward_step(hmm, dist, emission):
+    return normalize(np.dot(dist, np.dot(hmm.transition_probs, np.diagflat(hmm.emission_dist(emission)))))
 
 #related utilities
 def modify_tuple(tuple_, ix, value):
@@ -53,6 +56,6 @@ wiki_transition_probs = np.array([[0.7, 0.3], [0.3, 0.7]])
 wiki_HMM = HMM(wiki_transition_probs, wiki_emission_probs)
 
 if __name__ == "__main__":
-    #print(forward(wiki_transition_probs, wiki_emission_probs, wiki_initial_dist, wiki_emissions))
-    #print(backward(wiki_transition_probs, wiki_emission_probs, wiki_emissions))
-    print(forward_backward(wiki_HMM, wiki_initial_dist, wiki_emissions))
+    print(forward(wiki_HMM, wiki_initial_dist, wiki_emissions))
+    #print(backward(wiki_HMM, wiki_emissions))
+    #print(forward_backward(wiki_HMM, wiki_initial_dist, wiki_emissions))
